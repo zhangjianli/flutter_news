@@ -13,11 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'HeadLines',
+      title: 'Headlines',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HeadLinePage(title: 'HeadLines'),
+      home: HeadLinePage(title: 'Headlines'),
     );
   }
 }
@@ -169,52 +169,3 @@ class _HeadLineListState extends State<HeadLineList> {
     }
   }
 }
-
-/*class HeadLineList extends StatelessWidget {
-  final NewsList newsList;
-  final flutterWebviewPlugin = new FlutterWebviewPlugin();
-
-  HeadLineList({Key key, this.newsList}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-
-    return RefreshIndicator(
-        onRefresh: () => NewsApi.getHeadLines(),
-    child: ListView.builder(
-      itemCount: newsList.articles.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WebviewScaffold(
-                        url: '${newsList.articles[index].url}',
-                        appBar: AppBar(title: Text("News Detail")),
-                      )));
-            },
-            title: Text('${newsList.articles[index].title}'),
-            subtitle: Text('${newsList.articles[index].author}'),
-            leading: Image.network('${newsList.articles[index].urlToImage}'));
-      }));
-
-    */ /*return ListView.builder(
-        itemCount: newsList.articles.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => WebviewScaffold(
-                              url: '${newsList.articles[index].url}',
-                              appBar: AppBar(title: Text("News Detail")),
-                            )));
-              },
-              title: Text('${newsList.articles[index].title}'),
-              subtitle: Text('${newsList.articles[index].author}'),
-              leading: Image.network('${newsList.articles[index].urlToImage}'));
-        });*/ /*
-  }
-}*/
