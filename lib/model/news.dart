@@ -39,8 +39,10 @@ class NewsList extends Object with _$NewsListSerializerMixin {
   final String status;
   final int totalResults;
   final List<News> articles;
+  final code;
+  final message;
 
-  NewsList(this.status, this.totalResults, this.articles);
+  NewsList(this.status, this.totalResults, this.articles, this.code, this.message);
 
   factory NewsList.fromJson(Map<String, dynamic> json) => _$NewsListFromJson(json);
 

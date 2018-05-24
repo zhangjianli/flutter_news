@@ -51,15 +51,21 @@ NewsList _$NewsListFromJson(Map<String, dynamic> json) => new NewsList(
     (json['articles'] as List)
         ?.map((e) =>
             e == null ? null : new News.fromJson(e as Map<String, dynamic>))
-        ?.toList());
+        ?.toList(),
+    json['code'],
+    json['message']);
 
 abstract class _$NewsListSerializerMixin {
   String get status;
   int get totalResults;
   List<News> get articles;
+  dynamic get code;
+  dynamic get message;
   Map<String, dynamic> toJson() => <String, dynamic>{
         'status': status,
         'totalResults': totalResults,
-        'articles': articles
+        'articles': articles,
+        'code': code,
+        'message': message
       };
 }
