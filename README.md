@@ -3,7 +3,7 @@
 A Simple News App built with Flutter. In this app, there is a Headline page, which will display top news from newsapi.org. 
 When click on a Headline item, it will open a new Webview page to display details.
 
-Some tectonics used in this App:
+Some techniques used in this App:
 
 > Fetch data from the internet.
 
