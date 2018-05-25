@@ -78,7 +78,7 @@ class _HeadLineListState extends State<HeadLineList> {
       if ("ok".compareTo(news?.status) != 0) {
         _status = ERROR;
         _message = news?.message;
-      } else if (_articles?.isEmpty??false) {
+      } else if (_articles?.isEmpty ?? false) {
         _status = EMPTY;
       } else {
         _pageCount++;
@@ -99,7 +99,7 @@ class _HeadLineListState extends State<HeadLineList> {
     });
     NewsList news = await NewsApi.getHeadLines(page: _pageCount);
     setState(() {
-      if (news?.articles?.isNotEmpty??false) {
+      if (news?.articles?.isNotEmpty ?? false) {
         _pageCount++;
       }
       _articles.addAll(news?.articles);
@@ -113,7 +113,9 @@ class _HeadLineListState extends State<HeadLineList> {
     _status = LOADING;
     _controller = ScrollController();
     _controller.addListener(() {
-      if (_footerStatus == LoadingFooter.IDLE && _controller.offset > _lastOffset && _controller.position.maxScrollExtent - _controller.offset < 100) {
+      if (_footerStatus == LoadingFooter.IDLE &&
+          _controller.offset > _lastOffset &&
+          _controller.position.maxScrollExtent - _controller.offset < 100) {
         loadMore();
       }
       _lastOffset = _controller.offset;
@@ -132,7 +134,9 @@ class _HeadLineListState extends State<HeadLineList> {
                 itemBuilder: (context, index) {
                   if (index == _articles.length) {
                     return LoadingFooter(
-                        retry: () {loadMore();},
+                        retry: () {
+                          loadMore();
+                        },
                         state: _footerStatus);
                   } else {
                     return NewsItem(
@@ -149,16 +153,15 @@ class _HeadLineListState extends State<HeadLineList> {
                         news: _articles[index]);
                   }
                 },
-                controller: _controller)
-        );
+                controller: _controller));
         break;
       case LOADING:
         return Center(child: CircularProgressIndicator());
         break;
       case ERROR:
         return Center(
-            child:
-                Text(_message?? "Something is wrong, you might need reboot your device."));
+            child: Text(_message ??
+                "Something is wrong, you might need reboot your device."));
         break;
       case EMPTY:
         return Center(child: Text("No news is good news!"));

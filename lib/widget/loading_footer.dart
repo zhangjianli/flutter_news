@@ -9,8 +9,7 @@ class LoadingFooter extends StatelessWidget {
 
   final VoidCallback retry;
 
-  const LoadingFooter({Key key, this.state: 0, this.retry})
-      : super(key: key);
+  const LoadingFooter({Key key, this.state: 0, this.retry}) : super(key: key);
 
   void _handleTab() {
     if (state == ERROR) {
