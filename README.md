@@ -27,9 +27,13 @@ Some tectonics used in this App:
 
 > Themes and Styles.
 
-#Screenshots
+> Splash screen.
 
-![Headline page](screenshot/screenshot_headlines.png) ![Detail page](screenshot/screenshot_detail.png)
+> Assets.
+
+# Screenshots
+
+<img src="screenshot/screenshot_headlines.png" width="45%" height="45%" />    <img src="screenshot/screenshot_detail.png" width="45%" height="45%" />
 
 ## Getting Started
 
