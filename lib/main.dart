@@ -154,21 +154,16 @@ class _HeadLineListState extends State<HeadLineList> {
                   }
                 },
                 controller: _controller));
-        break;
       case LOADING:
         return Center(child: CircularProgressIndicator());
-        break;
       case ERROR:
         return Center(
             child: Text(_message ??
                 "Something is wrong, you might need reboot your device."));
-        break;
       case EMPTY:
         return Center(child: Text("No news is good news!"));
-        break;
       default:
         return Center(child: Text("Emm..."));
-        break;
     }
   }
 }
