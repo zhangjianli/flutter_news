@@ -25,21 +25,40 @@ class MyApp extends StatelessWidget {
 class HeadLinePage extends StatelessWidget {
   final String title;
 
+  final List<Tab> newsTabs = <Tab>[
+    new Tab(text: 'general'),
+    new Tab(text: 'technology'),
+    new Tab(text: 'entertainment'),
+    new Tab(text: 'business'),
+    new Tab(text: 'health'),
+    new Tab(text: 'sports'),
+    new Tab(text: 'science'),
+  ];
+
   HeadLinePage({Key key, this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: HeadLineList());
+    return DefaultTabController(
+        length: newsTabs.length,
+        child: Scaffold(
+            appBar: AppBar(title: Text(title), bottom: TabBar(tabs: newsTabs, isScrollable: true)),
+            body: TabBarView(
+                children: newsTabs.map((Tab tab) {
+              return HeadLineList(tab.text);
+            }).toList())));
   }
 }
 
 class HeadLineList extends StatefulWidget {
+
+  final String _category;
+
+  HeadLineList(this._category);
+
+
   @override
-  _HeadLineListState createState() => new _HeadLineListState();
+  _HeadLineListState createState() => _HeadLineListState();
 }
 
 class _HeadLineListState extends State<HeadLineList> {
@@ -56,8 +75,6 @@ class _HeadLineListState extends State<HeadLineList> {
   int _footerStatus = LoadingFooter.IDLE;
   double _lastOffset = 0.0;
 
-  String _category;
-
   List<News> _articles;
 
   final flutterWebviewPlugin = new FlutterWebviewPlugin();
@@ -68,7 +85,7 @@ class _HeadLineListState extends State<HeadLineList> {
 
   Future _getNews() async {
     _pageCount = 0;
-    NewsList news = await NewsApi.getHeadLines();
+    NewsList news = await NewsApi.getHeadLines(category: widget._category);
     _articles = news?.articles;
     if (_completer != null) {
       _completer.complete();
@@ -97,7 +114,7 @@ class _HeadLineListState extends State<HeadLineList> {
     setState(() {
       _footerStatus = LoadingFooter.LOADING;
     });
-    NewsList news = await NewsApi.getHeadLines(page: _pageCount);
+    NewsList news = await NewsApi.getHeadLines(page: _pageCount, category: widget._category);
     setState(() {
       if (news?.articles?.isNotEmpty ?? false) {
         _pageCount++;
