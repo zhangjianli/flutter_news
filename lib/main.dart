@@ -22,32 +22,51 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HeadLinePage extends StatelessWidget {
+class HeadLinePage extends StatefulWidget {
   final String title;
+
+  HeadLinePage({Key key, this.title}) : super(key: key);
+
+  @override
+  _HeadLinePageState createState() => new _HeadLinePageState();
+}
+
+class _HeadLinePageState extends State<HeadLinePage> with SingleTickerProviderStateMixin {
 
   final List<Tab> newsTabs = <Tab>[
     new Tab(text: 'general'),
     new Tab(text: 'technology'),
-    new Tab(text: 'entertainment'),
     new Tab(text: 'business'),
+    new Tab(text: 'entertainment'),
     new Tab(text: 'health'),
     new Tab(text: 'sports'),
     new Tab(text: 'science'),
   ];
 
-  HeadLinePage({Key key, this.title}) : super(key: key);
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: newsTabs.length);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: newsTabs.length,
-        child: Scaffold(
-            appBar: AppBar(title: Text(title), bottom: TabBar(tabs: newsTabs, isScrollable: true)),
-            body: TabBarView(
-                children: newsTabs.map((Tab tab) {
+    return Scaffold(
+        appBar: AppBar(title: Text(widget.title), bottom: TabBar(tabs: newsTabs, isScrollable: true, controller: _tabController,)),
+        body: TabBarView( controller: _tabController,
+            children: newsTabs.map((Tab tab) {
               return HeadLineList(tab.text);
-            }).toList())));
+            }).toList()));
   }
+
 }
 
 class HeadLineList extends StatefulWidget {
@@ -61,7 +80,7 @@ class HeadLineList extends StatefulWidget {
   _HeadLineListState createState() => _HeadLineListState();
 }
 
-class _HeadLineListState extends State<HeadLineList> {
+class _HeadLineListState extends State<HeadLineList> with AutomaticKeepAliveClientMixin {
   static const int IDLE = 0;
   static const int LOADING = 1;
   static const int ERROR = 3;
@@ -86,6 +105,9 @@ class _HeadLineListState extends State<HeadLineList> {
   Future _getNews() async {
     _pageCount = 0;
     NewsList news = await NewsApi.getHeadLines(category: widget._category);
+    if (!mounted) {
+      return;
+    }
     _articles = news?.articles;
     if (_completer != null) {
       _completer.complete();
@@ -115,6 +137,9 @@ class _HeadLineListState extends State<HeadLineList> {
       _footerStatus = LoadingFooter.LOADING;
     });
     NewsList news = await NewsApi.getHeadLines(page: _pageCount, category: widget._category);
+    if (!mounted) {
+      return;
+    }
     setState(() {
       if (news?.articles?.isNotEmpty ?? false) {
         _pageCount++;
@@ -138,6 +163,11 @@ class _HeadLineListState extends State<HeadLineList> {
       _lastOffset = _controller.offset;
     });
     _getNews();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -176,11 +206,14 @@ class _HeadLineListState extends State<HeadLineList> {
       case ERROR:
         return Center(
             child: Text(_message ??
-                "Something is wrong, you might need reboot your device."));
+                "Something is wrong, you might need to reboot your phone."));
       case EMPTY:
         return Center(child: Text("No news is good news!"));
       default:
         return Center(child: Text("Emm..."));
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
