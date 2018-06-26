@@ -31,6 +31,10 @@ Some techniques used in this App:
 
 > Assets.
 
+# Try it
+
+Get flutter_news from [Play Store](https://play.google.com/store/apps/details?id=io.github.zhangjianli.flutternews).
+
 # Screenshots
 
 <img src="screenshot/screenshot_headlines.png" width="45%" height="45%" />    <img src="screenshot/screenshot_detail.png" width="45%" height="45%" />
